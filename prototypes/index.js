@@ -496,10 +496,19 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    /* CODE GOES HERE */
+    const totalBeers = breweries.reduce(countBeers, 0);
+
+    function countBeers(total, brewery) {
+      return total + brewery.beers.length;
+    };
+
+    return totalBeers;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Using .reduce with a callback function and an initial value for the accumulator
+    // passing in the accumulator and current element
+    // adding the length of the current elements "beer" property's array to the accumulator
+    // returning the reduced value
   },
 
   getBreweryBeerCount() {
@@ -511,10 +520,23 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    /* CODE GOES HERE */
+    const breweriesAndCounts = breweries.map(returnNameAndCount);
+
+    function returnNameAndCount(element) {
+      let currentBrewery = {
+        name: element.name,
+        beerCount: element.beers.length
+      }
+
+      return currentBrewery;
+    };
+
+    return breweriesAndCounts;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // creating a new array and transforming the data of the current array with map
+    // using a function to create a new object literal with the passed in element's name and beerCount as length of it's beers array
+    // returning the newly mapped array
   },
 
   getSingleBreweryBeerCount(breweryName) {
@@ -522,11 +544,13 @@ const breweryPrompts = {
     // brewery has e.g.
     // given 'Ratio Beerworks', return 5
 
+    const specifiedBrewery = breweries.find(element => element.name === breweryName);
 
-    /* CODE GOES HERE */
+    return specifiedBrewery.beers.length;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Looking for the element that has the name property that's equal to the passed in name
+    // returning the length of the beers property array of the single matching element
   },
 
   findHighestAbvBeer() {
@@ -534,10 +558,26 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    /* CODE GOES HERE */
+    const eachHighestAbvBeer = breweries.map(checkAbvs);
+
+    function checkAbvs(element) {
+      let beers = element.beers.sort((x, y) => {
+        return y.abv - x.abv;
+      });
+
+      return beers[0];
+    };
+
+    const sortedBeers = eachHighestAbvBeer.sort((x, y) => {
+      return y.abv - x.abv;
+    });
+
+    return sortedBeers[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Creating an array of all of the highest abv beers for each brewery
+    // sorting the new array of highest abv beers for each brewery
+    // returning the first element in the sorted array (sorted by abv in descending order)
   }
 };
 
