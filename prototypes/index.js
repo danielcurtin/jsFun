@@ -20,26 +20,40 @@ const { dinosaurs, humans, movies } = require('./datasets/dinosaurs');
 
 // DATASET: kitties from ./datasets/kitties
 const kittyPrompts = {
-  orangePetNames() {
+  orangePetNames(petType) {
     // Return an array of just the names of kitties who are orange e.g.
         // ['Tiger', 'Snickers']
 
-        /* CODE GOES HERE */
+        let orangePets = petType.filter(element => element.color === "orange");
+        orangePets = orangePets.map(element => element.name);
+
+        return orangePets;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Given an array of objects, and want an array of strings 
+    // first we want to filter a new array into just the objects that have the color value of orange
+    // then we want to map the objects to a new array of just the name value of each of those objects
+    // return our new array of strings
   },
 
-  sortByAge() {
+  sortByAge(petType) {
     // Sort the kitties by their age
 
-    /* CODE GOES HERE */
+    const givenPets = petType.sort(ageSort);
+
+    function ageSort(x, y) {
+      return y.age - x.age;
+    };
+
+    return givenPets;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Given an array of objects, want an array of objects in a particular order
+    // sort the objects in descending order by subtracting the next elements age by the current elements age
+    // sort will order them accordingly
   },
 
-  growUp() {
+  growUp(petType) {
     // Return an array of kitties who have all grown up by 2 years e.g.
     // [{
     //   name: 'Felicia',
@@ -53,7 +67,14 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    /* CODE GOES HERE */
+    let givenPets = petType.map(ageUp);
+
+    function ageUp(element) {
+      element.age +=2;
+      return element;
+    };
+
+    return givenPets;
   }
 };
 
