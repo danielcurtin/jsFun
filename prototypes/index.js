@@ -286,10 +286,12 @@ const classPrompts = {
     //   { roomLetter: 'G', program: 'FE', capacity: 29 }
     // ]
 
-    /* CODE GOES HERE */
+    const onlyFe = classrooms.filter(element => element.program === 'FE');
+
+    return onlyFe;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filtering the array to check if the program is frontend
   },
 
   totalCapacities() {
@@ -300,19 +302,38 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    /* CODE GOES HERE */
+    const onlyFe = classrooms.filter(element => element.program === 'FE');
+    const onlyBe = classrooms.filter(element => element.program === 'BE');
+
+    const feCapac = onlyFe.reduce(addCapacities, 0);
+    const beCapac = onlyBe.reduce(addCapacities, 0);
+
+    function addCapacities(accumulator, currentElement) {
+      return accumulator + currentElement.capacity;
+    };
+
+    let capacityObj = {
+      feCapacity: feCapac,
+      beCapacity: beCapac
+    };
+
+    return capacityObj;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create two arrays, one for each program
+    // add the capacities of each program independently
+    // return a new object with those capacities
   },
 
   sortByCapacity() {
     // Return the array of classrooms sorted by their capacity (least capacity to greatest)
 
-    /* CODE GOES HERE */
+    const sortedClasses = classrooms.sort((x, y) => x.capacity - y.capacity);
+
+    return sortedClasses;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // use the sort method to sort things
   }
 };
 

@@ -93,7 +93,7 @@ If you'd like to keep track of your progress, feel free to use the checklist bel
 - [ ] club
 - [x] mods
 - [ ] cakes
-- [ ] classrooms
+- [x] classrooms
 - [ ] books
 - [x] weather
 - [ ] nationalParks
