@@ -156,7 +156,7 @@ const modPrompts = {
     return stuPerInst;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Mapping a new array that creates an object with new properties, then returning it with math done
   }
 };
 
@@ -388,10 +388,14 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    /* CODE GOES HERE */
+    const avgTemps = weather.map(element => {
+      return (element.temperature.high + element.temperature.low) / 2
+    });
+
+    return avgTemps;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // mapping a new array that will just have the average temp for each element
   },
 
   findSunnySpots() {
@@ -401,10 +405,23 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    /* CODE GOES HERE */
+    const sunnyLocations = weather.filter(checkForSunny);
+
+    function checkForSunny(element) {
+      return element.type.includes("sunny");
+    };
+
+    const locationSentences = sunnyLocations.map(structureSentences);
+
+    function structureSentences(element) {
+      return `${element.location} is ${element.type}.`;
+    };
+
+    return locationSentences;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filtering the array to get a new array with just the elements that have sunny somewhere in their type
+    // mapping a new array with that array to use those passing elements in making the sentences
   },
 
   findHighestHumidity() {
@@ -416,11 +433,13 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    /* CODE GOES HERE */
+    const locationsByHumidity = weather.sort((x, y) => y.humidity - x.humidity);
+
+    return locationsByHumidity[0];
 
     // Annotation:
-    // Write your annotation here as a comment
-
+    // Sorting the array by humidity highest to lowest
+    // Returning the first element (highest humidity)
   }
 };
 
