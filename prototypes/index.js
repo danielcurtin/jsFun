@@ -143,7 +143,17 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    /* CODE GOES HERE */
+    const stuPerInst = mods.map(calcStuPerInst);
+
+    function calcStuPerInst(element) {
+      let newOb = {
+        mod: element.mod,
+        studentsPerInstructor: element.students / element.instructors
+      }
+      return newOb;
+    };
+
+    return stuPerInst;
 
     // Annotation:
     // Write your annotation here as a comment
