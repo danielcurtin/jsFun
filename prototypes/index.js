@@ -482,10 +482,23 @@ const nationalParksPrompts = {
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
 
-    /* CODE GOES HERE */
+    const visitedParks = nationalParks.filter(element => element.visited);
+    const unvisitedParks = nationalParks.filter(element => !element.visited);
+
+    const namesOfVisited = visitedParks.map(element => element.name);
+    const namesOfUnvisited = unvisitedParks.map(element => element.name);
+
+    let parks = {
+      parksToVisit: namesOfUnvisited,
+      parksVisited: namesOfVisited
+    };
+
+    return parks;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Filter both options into seperate arrays
+    // Make new arrays with just the names of each option
+    // build a new object to input those datasets into
   },
 
   getParkInEachState() {
@@ -498,10 +511,19 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    /* CODE GOES HERE */
+    const statesParks = nationalParks.map(createStateParksObj);
+
+    function createStateParksObj(element) {
+      let obj = {
+        [element.location]: element.name 
+      };
+      return obj;
+    };
+
+    return statesParks;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // map a new array of objects with the key being each element's location and the value being each element's name
   },
 
   getParkActivities() {
@@ -520,10 +542,25 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    /* CODE GOES HERE */
+    let activities = nationalParks.map(element => element.activities);
+
+    activities = activities.flat(1);
+
+    let noDupesActivities = activities.filter(checkForDupes);
+
+    function checkForDupes(element, index, array) {
+      return array.indexOf(element) === index;
+    };
+
+    return noDupesActivities;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create an array of the arrays of activites
+    // flatten the array of arrays down to just one array (with 1 layer deep of flattening)
+    // filter the array of activites checking for duplicates
+
+    // the check sees if the indexOf the element (first location of the element) is equal to the current
+    // index of the loop, and if it is it pulls the element
   }
 };
 
