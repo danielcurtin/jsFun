@@ -187,10 +187,15 @@ const cakePrompts = {
     //    ..etc
     // ]
 
-    /* CODE GOES HERE */
+    const cakesFlavCount = cakes.map(element => ({
+        flavor: element.cakeFlavor,
+        inStock: element.inStock
+      }));
+
+    return cakesFlavCount;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // map an array where each element is an object with keys flavor and inStock and the respective values
   },
 
   onlyInStock() {
@@ -214,20 +219,25 @@ const cakePrompts = {
     // ..etc
     // ]
 
-    /* CODE GOES HERE */
+    const inStockCakes = cakes.filter(element => element.inStock);
+
+    return inStockCakes;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filter the element looking for a truthy value
+    // if the cake isn't in stock it's value is 0 which is falsy
   },
 
   totalInventory() {
     // Return the total amount of cakes in stock e.g.
     // 59
 
-    /* CODE GOES HERE */
+    const totalCakes = cakes.reduce((accumulator, currentElement) => accumulator + currentElement.inStock, 0);
+
+    return totalCakes;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // reduce to one value, add the accumulator and current elements, give it an initial value of 0(int)
   },
 
   allToppings() {
@@ -235,10 +245,22 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    /* CODE GOES HERE */
+    let cakeToppings = cakes.map(element => element.toppings);
+
+    cakeToppings = cakeToppings.flat(1);
+
+    const noDupesToppings = cakeToppings.filter(checkForDupes);
+
+    function checkForDupes(element, index, array) {
+      return array.indexOf(element) === index;
+    };
+
+    return noDupesToppings;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // map the toppings to an array (array of arrays)
+    // flatten the array of arrays to one array (only one level of depth)
+    // filter checking if the index of the current element in the array is equal to the current index of the loop
   },
 
   groceryList() {
@@ -252,10 +274,34 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    /* CODE GOES HERE */
+    const shoppingList = {};
+
+    let cakeToppings = cakes.map(element => element.toppings);
+
+    cakeToppings = cakeToppings.flat(1);
+
+    const noDupesToppings = cakeToppings.filter(checkForDupes);
+    
+    noDupesToppings.forEach(createList);
+
+    function checkForDupes(element, index, array) {
+      return array.indexOf(element) === index;
+    };
+
+    function createList(element, index) {
+      shoppingList[noDupesToppings[index]] = cakeToppings.filter(secElement => secElement === element).length;
+    };
+
+    return shoppingList;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // initialized an empty object
+    // same as above, made an array of arrays for toppings and flattened it down
+    // filtered out the duplicates to get the first list of toppings to use as keys
+    // for each element in the no dupes want to give it a key of whatever element it's currently at (no dupes)
+
+    // then want to set each of those properties to the length of the array of each topping filtered out from 
+    // the array that includes duplicates, so that we can "count" the number of times each topping appears
   }
 };
 
@@ -546,7 +592,7 @@ const nationalParksPrompts = {
 
     activities = activities.flat(1);
 
-    let noDupesActivities = activities.filter(checkForDupes);
+    const noDupesActivities = activities.filter(checkForDupes);
 
     function checkForDupes(element, index, array) {
       return array.indexOf(element) === index;

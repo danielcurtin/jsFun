@@ -92,7 +92,7 @@ If you'd like to keep track of your progress, feel free to use the checklist bel
 - [x] puppers
 - [ ] club
 - [x] mods
-- [ ] cakes
+- [x] cakes
 - [x] classrooms
 - [ ] books
 - [x] weather
