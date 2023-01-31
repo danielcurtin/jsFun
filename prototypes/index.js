@@ -292,22 +292,18 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    const shoppingList = {};
-
     let cakeToppings = cakes.map(element => element.toppings);
-
     cakeToppings = cakeToppings.flat(1);
 
-    const noDupesToppings = cakeToppings.filter(checkForDupes);
-    
-    noDupesToppings.forEach(createList);
-
-    function checkForDupes(element, index, array) {
+    const noDupesToppings = cakeToppings.filter((element, index, array) => {
       return array.indexOf(element) === index;
-    };
+    });
+    
+    const shoppingList = noDupesToppings.reduce(createList, {});
 
-    function createList(element, index) {
-      shoppingList[noDupesToppings[index]] = cakeToppings.filter(secElement => secElement === element).length;
+    function createList(accumulator, element, index) {
+      accumulator[noDupesToppings[index]] = cakeToppings.filter(secElement => secElement === element).length;
+      return accumulator;
     };
 
     return shoppingList;
