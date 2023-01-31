@@ -98,7 +98,7 @@ const kittyPrompts = {
 
 // DATASET: clubs from ./datasets/clubs
 const clubPrompts = {
-  membersBelongingToClubs() {
+  membersBelongingToClubs(clubsData) {
     // Your function should access the clubs data through a parameter (it is being passed as an argument in the test file)
     // Create an object whose keys are the names of people, and whose values are
     // arrays that include the names of the clubs that person is a part of. e.g.
@@ -108,10 +108,28 @@ const clubPrompts = {
     //   ...etc
     // }
 
-    /* CODE GOES HERE */
+    let clubMembers = clubsData.map(element => element.members);
+    clubMembers = clubMembers.flat(1);
+    clubMembers = clubMembers.filter((element, index, array) => array.indexOf(element) === index);
+
+    const memberClubs = clubMembers.map(element => clubsData.filter(dataElement => dataElement.members.includes(element)));
+
+    const memberObject = clubMembers.reduce((accumulator, element, index) => {
+      accumulator[element] = memberClubs[index].map(element => element.club);
+      return accumulator;
+    }, {});
+
+    return memberObject;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Mapping an array of all the arrays of club members
+    // flattening it down to just one big array
+    // filtering out the duplicates, this variable is our keys for our object
+
+    // mapping an array of arrays with each club object the member shows up in
+    
+    // reducing the members down to one object with the keys being each element in the club members array
+    // and the values as a mapped array of the clubs the member is in from the array of club objects the member is in
   }
 };
 
