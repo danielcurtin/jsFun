@@ -392,7 +392,7 @@ const classPrompts = {
 // DATASET: books from './datasets/books
 
 const bookPrompts = {
-  removeViolence() {
+  removeViolence(bookData) {
     // Your function should access the books data through a parameter (it is being passed as an argument in the test file)
     // return an array of all book titles that are not horror or true crime. Eg:
 
@@ -403,13 +403,17 @@ const bookPrompts = {
     //   'Catch-22', 'Treasure Island']
 
 
-    /* CODE GOES HERE */
+    const notViolent = bookData.filter(element => element.genre !== 'Horror' && element.genre !== 'True Crime');
+    const notViolentTitles = notViolent.map(element => element.title);
+
+    return notViolentTitles;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Filter out all the violent books
+    // make a new array of just the titles of the nonviolent books
 
   },
-  getNewBooks() {
+  getNewBooks(bookData) {
     // return an array of objects containing all books that were
     // published in the 90's and 00's. Inlucde the title and the year Eg:
 
@@ -417,10 +421,14 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    /* CODE GOES HERE */
+    const newerBooks = bookData.filter(element => element.published > 1989 && element.published < 2010);
+    const newBookObjects = newerBooks.map(element => ({title: element.title, year: element.published}));
+
+    return newBookObjects;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filter for all the books from 1990 to 2009
+    // map a new array that returns an object with a title and year property of the elements title and published year
   },
 
   getBooksByYear(books, year) {
@@ -433,10 +441,14 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    /* CODE GOES HERE */
+    const booksPastYear = books.filter(element => element.published > year);
+    const newBookObjects = booksPastYear.map(element => ({title: element.title, year: element.published}));
+
+    return newBookObjects;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // filter out all the elements that come after the specified year
+    // map a new array of objects with a title and year property that has the value of the elements title and published year
   }
 
 };
