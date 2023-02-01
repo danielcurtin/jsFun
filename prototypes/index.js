@@ -755,10 +755,12 @@ const boardGamePrompts = {
     // e.g. given an argument of "strategy", return
     // ["Chess", "Catan", "Checkers", "Pandemic", "Battle Ship", "Azul", "Ticket to Ride"]
 
-    /* CODE GOES HERE */
+    const gamesByType = boardGames[type].map(game => game.name);
+
+    return gamesByType;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Make a new array of just the names of the specified type of board game
   },
 
   listGamesAlphabetically(type) {
@@ -767,10 +769,12 @@ const boardGamePrompts = {
     // e.g. given an argument of "childrens", return
     // ["Candy Land", "Connect Four", "Operation", "Trouble"]
 
-    /* CODE GOES HERE */
+    const gamesByTypeAlpha = boardGames[type].map(game => game.name).sort();
+
+    return gamesByTypeAlpha;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Make a new array of the names of games of specified type, sort it alphabetically
   },
 
   findHighestRatedGamesByType(type) {
@@ -778,10 +782,12 @@ const boardGamePrompts = {
     // e.g. given the argument of 'party', return
     // { name: 'Codenames', rating: 7.4, maxPlayers: 8 },
 
-    /* CODE GOES HERE */
+    const highestRatedByType = boardGames[type].sort((x, y) => y.rating - x.rating);
+
+    return highestRatedByType[0];
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Sort the array of the games of a specified type by highest rating to lowest and return the first one
   },
 
   averageScoreByType(type) {
@@ -789,10 +795,12 @@ const boardGamePrompts = {
     // e.g. given the argument of "strategy", return 7
     // note: do not worry about rounding your result.
 
-    /* CODE GOES HERE */
+    const avgScoreByType = boardGames[type].reduce((score, game) => score + game.rating, 0) / boardGames[type].length;
+
+    return avgScoreByType;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Add all of the ratings of the games of a specified type together and divide by the length of the specified type's array
   },
 
   averageScoreByTypeAndPlayers(type, maximumPlayers) {
@@ -801,10 +809,14 @@ const boardGamePrompts = {
     // e.g. given the arguments of "strategy" and 2, return 6.16666666667
     // note: do not worry about rounding your result.
 
-    /* CODE GOES HERE */
+    const maxPlayerGames = boardGames[type].filter(game => game.maxPlayers === maximumPlayers);
+    const avgByTypeAndPlayers = maxPlayerGames.reduce((score, game) => score + game.rating, 0) / maxPlayerGames.length;
+
+    return avgByTypeAndPlayers;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Get all the games with the specified number of maximum players
+    // Average their ratings
   }
 };
 
