@@ -971,10 +971,27 @@ const bossPrompts = {
     //   { bossName: 'Scar', sidekickLoyalty: 16 }
     // ]
 
-    /* CODE GOES HERE */
+    let bossesArray = sidekicks.map(sidekick => bosses[sidekick.boss.toLowerCase()]);
+    bossesArray = bossesArray.filter((element, index, array) => array.indexOf(element) === index);
+
+    const newObj = bossesArray.map(boss => {
+      let bossSidekicks = sidekicks.filter(sidekick => boss.name === sidekick.boss);
+      return {
+        bossName: boss.name,
+        sidekickLoyalty: bossSidekicks.reduce((loyalty, currentSidekick) => loyalty + currentSidekick.loyaltyToBoss, 0)
+      };
+    });
+
+    return newObj;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Turn the bosses object of properties into an array of objects
+    // no duplicates
+    
+    // Make a new object with bossName and sidekickLoyalty keys
+    // for each boss make an individual array of only their sidekicks
+    // set the bossName value to the current boss' name
+    // set the sidekickLoyalty value to the sum of all of the boss' individual sidekick's loyaltyToBoss values
   }
 };
 
