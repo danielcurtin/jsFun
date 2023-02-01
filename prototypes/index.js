@@ -848,23 +848,38 @@ const turingPrompts = {
     //  { name: 'Robbie', studentCount: 18 }
     // ]
 
-    /* CODE GOES HERE */
+    const studentsEach = instructors.map((element) => {
+      return {
+        name: element.name, 
+        studentCount: cohorts.find(cohort => element.module === cohort.module).studentCount
+      };
+    });
+
+    return studentsEach;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create an array with an object for each element with the properties name and studentCount
+    // Set name to the value of whatever the current instructors name is
+    // Set studentCount to the studentCount of whatever cohort matches the module of the current instructor
   },
 
   studentsPerInstructor() {
     // Return an object of how many students per teacher there are in each cohort e.g.
     // {
-    // cohort1806: 9,
-    // cohort1804: 10.5
+    // cohort1806: 15,
+    // cohort1804: 7
     // }
 
-    /* CODE GOES HERE */
+    const cohortsObj = cohorts.reduce((newObj, element) => {
+      newObj[`cohort${element.cohort}`] = element.studentCount / instructors.filter(instructor => instructor.module === element.module).length;
+      return newObj;
+    }, {});
+
+    return cohortsObj;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create an object that has the key of each cohort
+    // Give each key a value of the studentCount per cohort divided by the number of instructors for that cohort's module
   },
 
   modulesPerTeacher() {
@@ -882,10 +897,18 @@ const turingPrompts = {
     //     Will: [1, 2, 3, 4]
     //   }
 
-    /* CODE GOES HERE */
+    const instructorMods = instructors.reduce((newInstOb, currInst) => {
+      const possibleCohorts = cohorts.filter(currCohort => currCohort.curriculum.some(canTeach => currInst.teaches.includes(canTeach)));
+      newInstOb[currInst.name] = possibleCohorts.map(cohort => cohort.module);
+      return newInstOb;
+    }, {});
+
+    return instructorMods;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create an object with the keys of each instructors name
+    // Create an array of the cohort objects that have at least one curriculum element in common with the elements of what the instructor teaches
+    // Denote each key of the instructors name to a new array of all of the modules the instructor can teach
   },
 
   curriculumPerTeacher() {
@@ -898,10 +921,26 @@ const turingPrompts = {
     //   recursion: [ 'Pam', 'Leta' ]
     // }
 
-    /* CODE GOES HERE */
+    let currics = cohorts.map(cohort => cohort.curriculum);
+    currics = currics.flat(1);
+    currics = currics.filter((element, index, array) => array.indexOf(element) === index);
+
+    const curriculumTeachers = currics.reduce((curricOb, currentSubject) => {
+      const possibleInstructors = instructors.filter(instructor => instructor.teaches.some(subject => subject === currentSubject));
+      curricOb[currentSubject] = possibleInstructors.map(instructor => instructor.name);
+      return curricOb;
+    }, {});
+
+    return curriculumTeachers;
 
     // Annotation:
-    // Write your annotation here as a comment
+    // Create an array of arrays of all of the curriculums of every cohort
+    // Turn it into just one array of all curriculums
+    // Clear out duplicates of the curriculums
+
+    // Create an object with keys of each curriculum
+    // Create an array of the possible instructors by checking if the current curriculum is in the instructors 'teaches' array at all
+    // Give each key a value of a new array of just the possible instructors names
   }
 };
 

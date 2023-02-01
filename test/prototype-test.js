@@ -544,7 +544,7 @@ describe("PROTOTYPES", () => {
   })
 
   describe("Turing Prompts", () => {
-    it.skip("studentsForEachInstructor", () => {
+    it("studentsForEachInstructor", () => {
       const e = turingPrompts.studentsForEachInstructor();
 
       expect(e).to.deep.equal([{
@@ -577,7 +577,7 @@ describe("PROTOTYPES", () => {
       }])
     });
 
-    it.skip("studentsPerInstructor", () => {
+    it("studentsPerInstructor", () => {
       const e = turingPrompts.studentsPerInstructor();
 
       expect(e).to.deep.equal({
@@ -588,7 +588,7 @@ describe("PROTOTYPES", () => {
       })
     });
 
-    it.skip("modulesPerTeacher", () => {
+    it("modulesPerTeacher", () => {
       const e = turingPrompts.modulesPerTeacher();
 
       expect(e).to.deep.equal({
@@ -604,7 +604,7 @@ describe("PROTOTYPES", () => {
       })
     });
 
-    it.skip("curriculumPerTeacher", () => {
+    it("curriculumPerTeacher", () => {
       const e = turingPrompts.curriculumPerTeacher();
 
       expect(e).to.deep.equal({
