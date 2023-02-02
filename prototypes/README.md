@@ -103,7 +103,7 @@ If you'd like to keep track of your progress, feel free to use the checklist bel
 ### Double Data Sets
 - [x] turing (instructors, cohorts)
 - [x] bosses (bosses, sidekicks)
-- [ ] astronomy (constellations, stars)
+- [x] astronomy (constellations, stars)
 - [ ] ultima (weapons, characters)
 
 #### Triple Data Sets

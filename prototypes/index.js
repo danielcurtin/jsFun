@@ -1055,7 +1055,24 @@ const astronomyPrompts = {
     //   }
     // ]
 
-    /* CODE GOES HERE */
+    const constKeys = Object.keys(constellations);
+    const constNames = constKeys.map(key => Object.values(constellations[key])).flat(2);
+
+    const constellationStars = stars.filter(star => constNames.some(constellation => constellation === star.constellation));
+
+    constellationStars.sort((x, y) => {
+      const const1 = x.constellation.length;
+      const const2 = y.constellation.length;
+
+      if (const1 < const2) {
+        return -1;
+      } else if (const1 > const2) {
+        return 1;
+      };
+      return 0;
+    });
+
+    return constellationStars;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1072,7 +1089,12 @@ const astronomyPrompts = {
     //   red: [{obj}]
     // }
 
-    /* CODE GOES HERE */
+    const starColors = stars.reduce((acc, star) => {
+      acc[star.color] = stars.filter(eachStar => eachStar.color === star.color);
+      return acc;
+    }, {});
+
+    return starColors;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1094,7 +1116,11 @@ const astronomyPrompts = {
     //    "The Little Dipper" ]
 
 
-    /* CODE GOES HERE */
+    stars.sort((x, y) => x.visualMagnitude - y.visualMagnitude);
+
+    const starsByLowBrightness = stars.map(star => star.constellation).filter(name => name);
+
+    return starsByLowBrightness;
 
     // Annotation:
     // Write your annotation here as a comment
