@@ -154,15 +154,12 @@ const modPrompts = {
     //   { mod: 4, studentsPerInstructor: 8 }
     // ]
 
-    const stuPerInst = mods.map(calcStuPerInst);
-
-    function calcStuPerInst(element) {
-      let newOb = {
+    const stuPerInst = mods.map((element) => {
+      return {
         mod: element.mod,
         studentsPerInstructor: element.students / element.instructors
-      }
-      return newOb;
-    };
+      };
+    });
 
     return stuPerInst;
 
@@ -256,17 +253,9 @@ const cakePrompts = {
     // every cake in the dataset e.g.
     // ['dutch process cocoa', 'toasted sugar', 'smoked sea salt', 'berries', ..etc]
 
-    let cakeToppings = cakes.map(element => element.toppings);
+    const cakeToppings = cakes.map(element => element.toppings).flat();
 
-    cakeToppings = cakeToppings.flat(1);
-
-    const noDupesToppings = cakeToppings.filter(checkForDupes);
-
-    function checkForDupes(element, index, array) {
-      return array.indexOf(element) === index;
-    };
-
-    return noDupesToppings;
+    return [...new Set(cakeToppings)];
 
     // Annotation:
     // map the toppings to an array (array of arrays)
@@ -285,19 +274,13 @@ const cakePrompts = {
     //    ...etc
     // }
 
-    let cakeToppings = cakes.map(element => element.toppings);
-    cakeToppings = cakeToppings.flat(1);
-
-    const noDupesToppings = cakeToppings.filter((element, index, array) => {
-      return array.indexOf(element) === index;
-    });
+    const cakeToppings = cakes.map(element => element.toppings).flat();
+    const noDupesToppings = [...new Set(cakeToppings)];
     
-    const shoppingList = noDupesToppings.reduce(createList, {});
-
-    function createList(accumulator, element, index) {
+    const shoppingList = noDupesToppings.reduce((accumulator, element, index) => {
       accumulator[noDupesToppings[index]] = cakeToppings.filter(secElement => secElement === element).length;
       return accumulator;
-    };
+    }, {});
 
     return shoppingList;
 
@@ -355,7 +338,7 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const totCap = classrooms.reduce((acc, element)=> {
+    const totCap = classrooms.reduce((acc, element) => {
       element.program === 'FE' ? acc.feCapacity += element.capacity : acc.beCapacity += element.capacity;
       return acc;
     }, {feCapacity: 0, beCapacity: 0});
@@ -396,11 +379,9 @@ const bookPrompts = {
     //   'The Curious Incident of the Dog in the Night - Time', 'The Bell Jar',
     //   'Catch-22', 'Treasure Island']
 
+    const notViolent = bookData.filter(element => element.genre !== 'Horror' && element.genre !== 'True Crime').map(element => element.title);
 
-    const notViolent = bookData.filter(element => element.genre !== 'Horror' && element.genre !== 'True Crime');
-    const notViolentTitles = notViolent.map(element => element.title);
-
-    return notViolentTitles;
+    return notViolent;
 
     // Annotation:
     // Filter out all the violent books
@@ -415,10 +396,9 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const newerBooks = bookData.filter(element => element.published > 1989 && element.published < 2010);
-    const newBookObjects = newerBooks.map(element => ({title: element.title, year: element.published}));
+    const newerBooks = bookData.filter(element => element.published > 1989 && element.published < 2010).map(element => ({title: element.title, year: element.published}));
 
-    return newBookObjects;
+    return newerBooks;
 
     // Annotation:
     // filter for all the books from 1990 to 2009
@@ -435,10 +415,9 @@ const bookPrompts = {
     //  { title: 'Life of Pi', year: 2001 },
     //  { title: 'The Curious Incident of the Dog in the Night-Time', year: 2003 }]
 
-    const booksPastYear = books.filter(element => element.published > year);
-    const newBookObjects = booksPastYear.map(element => ({title: element.title, year: element.published}));
+    const booksPastYear = books.filter(element => element.published > year).map(element => ({title: element.title, year: element.published}));
 
-    return newBookObjects;
+    return booksPastYear;
 
     // Annotation:
     // filter out all the elements that come after the specified year
@@ -461,9 +440,7 @@ const weatherPrompts = {
     // return an array of all the average temperatures. Eg:
     // [ 40, 40, 44.5, 43.5, 57, 35, 65.5, 62, 14, 46.5 ]
 
-    const avgTemps = weather.map(element => {
-      return (element.temperature.high + element.temperature.low) / 2
-    });
+    const avgTemps = weather.map(element => (element.temperature.high + element.temperature.low) / 2);
 
     return avgTemps;
 
@@ -478,19 +455,9 @@ const weatherPrompts = {
     // 'New Orleans, Louisiana is sunny.',
     // 'Raleigh, North Carolina is mostly sunny.' ]
 
-    const sunnyLocations = weather.filter(checkForSunny);
+    const sunnyLocations = weather.filter(element => element.type.includes("sunny")).map((element) => `${element.location} is ${element.type}.`);
 
-    function checkForSunny(element) {
-      return element.type.includes("sunny");
-    };
-
-    const locationSentences = sunnyLocations.map(structureSentences);
-
-    function structureSentences(element) {
-      return `${element.location} is ${element.type}.`;
-    };
-
-    return locationSentences;
+    return sunnyLocations;
 
     // Annotation:
     // filtering the array to get a new array with just the elements that have sunny somewhere in their type
@@ -555,14 +522,7 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const statesParks = nationalParks.map(createStateParksObj);
-
-    function createStateParksObj(element) {
-      let obj = {
-        [element.location]: element.name 
-      };
-      return obj;
-    };
+    const statesParks = nationalParks.map((element) => ({[element.location]: element.name}));
 
     return statesParks;
 
@@ -586,17 +546,8 @@ const nationalParksPrompts = {
     //   'backpacking',
     //   'rock climbing' ]
 
-    let activities = nationalParks.map(element => element.activities);
-
-    activities = activities.flat(1);
-
-    const noDupesActivities = activities.filter(checkForDupes);
-
-    function checkForDupes(element, index, array) {
-      return array.indexOf(element) === index;
-    };
-
-    return noDupesActivities;
+    const activities = nationalParks.map(element => element.activities).flat();
+    return [...new Set(activities)];
 
     // Annotation:
     // Create an array of the arrays of activites
