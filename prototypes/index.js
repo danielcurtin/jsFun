@@ -522,7 +522,7 @@ const nationalParksPrompts = {
     // { Florida: 'Everglades' } ]
 
 
-    const statesParks = nationalParks.map((element) => ({[element.location]: element.name}));
+    const statesParks = nationalParks.map(element => ({[element.location]: element.name}));
 
     return statesParks;
 
@@ -578,11 +578,7 @@ const breweryPrompts = {
     // Return the total beer count of all beers for every brewery e.g.
     // 40
 
-    const totalBeers = breweries.reduce(countBeers, 0);
-
-    function countBeers(total, brewery) {
-      return total + brewery.beers.length;
-    };
+    const totalBeers = breweries.reduce((total, brewery) => total + brewery.beers.length, 0);
 
     return totalBeers;
 
@@ -602,16 +598,12 @@ const breweryPrompts = {
     // ...etc.
     // ]
 
-    const breweriesAndCounts = breweries.map(returnNameAndCount);
-
-    function returnNameAndCount(element) {
-      let currentBrewery = {
+    const breweriesAndCounts = breweries.map(element => {
+      return {
         name: element.name,
         beerCount: element.beers.length
-      }
-
-      return currentBrewery;
-    };
+      };
+    });
 
     return breweriesAndCounts;
 
@@ -640,19 +632,15 @@ const breweryPrompts = {
     // e.g.
     // { name: 'Barrel Aged Nature\'s Sweater', type: 'Barley Wine', abv: 10.9, ibu: 40 }
 
-    const eachHighestAbvBeer = breweries.map(checkAbvs);
-
-    function checkAbvs(element) {
+    const eachHighestAbvBeer = breweries.map(element => {
       let beers = element.beers.sort((x, y) => {
         return y.abv - x.abv;
       });
 
       return beers[0];
-    };
-
-    const sortedBeers = eachHighestAbvBeer.sort((x, y) => {
-      return y.abv - x.abv;
     });
+
+    const sortedBeers = eachHighestAbvBeer.sort((x, y) => y.abv - x.abv);
 
     return sortedBeers[0];
 
