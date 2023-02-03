@@ -107,7 +107,7 @@ If you'd like to keep track of your progress, feel free to use the checklist bel
 - [x] ultima (weapons, characters)
 
 #### Triple Data Sets
-- [ ] dinosaurs (dinosaurs, humans, movies)
+- [x] dinosaurs (dinosaurs, humans, movies)
 
 # More Practice
 For more practice with iterators (in an assessment-style format), check out [this gist](https://gist.github.com/kaylagordon/c1f62f2c43e27dee3c6176f4d54aa3b6)!

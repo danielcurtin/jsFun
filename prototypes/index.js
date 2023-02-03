@@ -24,8 +24,7 @@ const kittyPrompts = {
     // Return an array of just the names of kitties who are orange e.g.
         // ['Tiger', 'Snickers']
 
-        let orangePets = petType.filter(element => element.color === "orange");
-        orangePets = orangePets.map(element => element.name);
+        let orangePets = petType.filter(element => element.color === "orange").map(element => element.name);
 
         return orangePets;
 
@@ -1202,7 +1201,13 @@ const dinosaurPrompts = {
     //   'Jurassic World: Fallen Kingdom': 18
     // }
 
-    /* CODE GOES HERE */
+    const awesomeMovies = movies.reduce((acc, movie) => {
+      let dinoAcc = movie.dinos.filter(element => dinosaurs[element].isAwesome)
+      acc[movie.title] = dinoAcc.length;
+      return acc;
+    }, {});
+
+    return awesomeMovies;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1234,7 +1239,23 @@ const dinosaurPrompts = {
       }
     */
 
-    /* CODE GOES HERE */
+    const movieAges = movies.reduce((acc, movie) => {
+      if (acc[movie.director]) {
+        acc[movie.director][movie.title] = movie.cast.reduce((castAcc, castMember) => {
+          castAcc += (movie.yearReleased - humans[castMember].yearBorn);
+          return castAcc;
+        }, 0);
+      } else {
+        acc[movie.director] = movie.cast.reduce((castAcc, castMember) => {
+          castAcc[movie.title] += movie.yearReleased - humans[castMember].yearBorn;
+          return castAcc;
+        }, {[movie.title]: 0});
+      };
+      acc[movie.director][movie.title] = Math.floor(acc[movie.director][movie.title] / movie.cast.length);
+      return acc;
+    }, {});
+
+    return movieAges;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1266,7 +1287,32 @@ const dinosaurPrompts = {
       }]
     */
 
-    /* CODE GOES HERE */
+    const actors = Object.keys(humans);
+    const allCast = movies.map(movie => movie.cast).flat().filter((element, index, array) => array.indexOf(element) === index);
+    const notActed = actors.filter(actor => !allCast.includes(actor));
+
+    const uncast = notActed.map(ele => {
+      return notActed.reduce(acc => {
+        acc.name = ele;
+        acc.nationality = humans[ele].nationality;
+        acc.imdbStarMeterRating = humans[ele].imdbStarMeterRating;
+        return acc;
+      }, {name: undefined});
+    });
+
+    uncast.sort((x, y) => {
+      const notact1 = x.nationality;
+      const notact2 = y.nationality;
+
+      if (notact1 < notact2) {
+        return -1;
+      } else if (notact1 > notact2) {
+        return 1;
+      };
+      return 0;
+    });
+
+    return uncast;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1288,7 +1334,19 @@ const dinosaurPrompts = {
       { name: 'Bryce Dallas Howard', ages: [ 34, 37 ] } ]
     */
 
-    /* CODE GOES HERE */
+    const actors = Object.keys(humans);
+    const allCast = movies.map(movie => movie.cast).flat().filter((element, index, array) => array.indexOf(element) === index);
+    const notActed = actors.filter(actor => allCast.includes(actor));
+
+    const allActors = notActed.map(actor => {
+      return notActed.reduce(acc => {
+        acc.name = actor;
+        acc.ages = movies.filter(movie => movie.cast.includes(actor)).map(mapMovie => mapMovie.yearReleased - humans[actor].yearBorn);
+        return acc;
+      }, {});
+    });
+
+    return allActors;
 
     // Annotation:
     // Write your annotation here as a comment
