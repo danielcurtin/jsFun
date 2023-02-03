@@ -104,7 +104,7 @@ If you'd like to keep track of your progress, feel free to use the checklist bel
 - [x] turing (instructors, cohorts)
 - [x] bosses (bosses, sidekicks)
 - [x] astronomy (constellations, stars)
-- [ ] ultima (weapons, characters)
+- [x] ultima (weapons, characters)
 
 #### Triple Data Sets
 - [ ] dinosaurs (dinosaurs, humans, movies)

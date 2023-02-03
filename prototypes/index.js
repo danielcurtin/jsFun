@@ -39,11 +39,7 @@ const kittyPrompts = {
   sortByAge(petType) {
     // Sort the kitties by their age
 
-    const givenPets = petType.sort(ageSort);
-
-    function ageSort(x, y) {
-      return y.age - x.age;
-    };
+    const givenPets = petType.sort((x, y) => y.age - x.age);
 
     return givenPets;
 
@@ -67,12 +63,10 @@ const kittyPrompts = {
     // },
     // ...etc]
 
-    let givenPets = petType.map(ageUp);
-
-    function ageUp(element) {
+    let givenPets = petType.map(element => {
       element.age +=2;
       return element;
-    };
+    });
 
     return givenPets;
   }
@@ -362,27 +356,14 @@ const classPrompts = {
     //   beCapacity: 96
     // }
 
-    const onlyFe = classrooms.filter(element => element.program === 'FE');
-    const onlyBe = classrooms.filter(element => element.program === 'BE');
+    const totCap = classrooms.reduce((acc, element)=> {
+      element.program === 'FE' ? acc.feCapacity += element.capacity : acc.beCapacity += element.capacity;
+      return acc;
+    }, {feCapacity: 0, beCapacity: 0});
 
-    const feCapac = onlyFe.reduce(addCapacities, 0);
-    const beCapac = onlyBe.reduce(addCapacities, 0);
-
-    function addCapacities(accumulator, currentElement) {
-      return accumulator + currentElement.capacity;
-    };
-
-    let capacityObj = {
-      feCapacity: feCapac,
-      beCapacity: beCapac
-    };
-
-    return capacityObj;
+    return totCap;
 
     // Annotation:
-    // Create two arrays, one for each program
-    // add the capacities of each program independently
-    // return a new object with those capacities
   },
 
   sortByCapacity() {
@@ -526,9 +507,9 @@ const weatherPrompts = {
     //   temperature: { high: 49, low: 38 }
     // }
 
-    const locationsByHumidity = weather.sort((x, y) => y.humidity - x.humidity);
+    weather.sort((x, y) => y.humidity - x.humidity);
 
-    return locationsByHumidity[0];
+    return weather[0];
 
     // Annotation:
     // Sorting the array by humidity highest to lowest
@@ -553,24 +534,16 @@ const nationalParksPrompts = {
     //   parksToVisit: ["Yellowstone", "Glacier", "Everglades"],
     //   parksVisited: ["Rocky Mountain", "Acadia", "Zion"]
     //}
-
-    const visitedParks = nationalParks.filter(element => element.visited);
-    const unvisitedParks = nationalParks.filter(element => !element.visited);
-
-    const namesOfVisited = visitedParks.map(element => element.name);
-    const namesOfUnvisited = unvisitedParks.map(element => element.name);
-
-    let parks = {
-      parksToVisit: namesOfUnvisited,
-      parksVisited: namesOfVisited
-    };
+    
+    const parks = nationalParks.reduce(acc => {
+      acc.parksToVisit = nationalParks.filter(element => !element.visited).map(element => element.name);
+      acc.parksVisited = nationalParks.filter(element => element.visited).map(element => element.name);
+      return acc;
+    }, {});
 
     return parks;
 
     // Annotation:
-    // Filter both options into seperate arrays
-    // Make new arrays with just the names of each option
-    // build a new object to input those datasets into
   },
 
   getParkInEachState() {
@@ -1150,7 +1123,13 @@ const ultimaPrompts = {
     // Return the sum of the amount of damage for all the weapons that our characters can use
     // Answer => 113
 
-    /* CODE GOES HERE */
+    const allWeapons = characters.map(char => char.weapons).flat();
+
+    let allDamage = allWeapons.reduce((acc, weap) => {
+      return acc + weapons[weap].damage;
+    }, 0);
+
+    return allDamage;
 
     // Annotation:
     // Write your annotation here as a comment
@@ -1161,7 +1140,33 @@ const ultimaPrompts = {
     // Return the sum damage and total range for each character as an object.
     // ex: [ { Avatar: { damage: 27, range: 24 }, { Iolo: {...}, ...}
 
-    /* CODE GOES HERE */
+    const combatStats = characters.map(char => {
+      const charStatSum = {};
+        charStatSum[char.name] = char.weapons.reduce((statsAcc, statsWeap) => {
+          statsAcc.damage += weapons[statsWeap].damage;
+          statsAcc.range += weapons[statsWeap].range;
+          return statsAcc;
+        }, {damage: 0, range: 0});
+      return charStatSum;
+    });
+
+    return combatStats;
+
+    // const combatXtra = characters.map(element => Object.keys(element));
+
+    // const combatStatsTwo = characters.map((ele, index) => {
+    //   let comb = combatXtra[index].reduce(acc => {
+    //     acc[ele.name] = ele.weapons.reduce((statsAcc, statsWeap) => {
+    //       statsAcc.damage += weapons[statsWeap].damage;
+    //       statsAcc.range += weapons[statsWeap].range;
+    //       return statsAcc;
+    //     }, {damage: 0, range: 0});
+    //     return acc;
+    //   }, {});
+    //   return comb;
+    // });
+      
+    // return combatStatsTwo;
 
     // Annotation:
     // Write your annotation here as a comment
